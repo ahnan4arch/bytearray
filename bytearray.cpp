@@ -1,9 +1,10 @@
 #include "bytearray.h"
 
-ByteArray::ByteArray(char *aStr) { 
-	if(aStr) { 
-		d.data = aStr; 
-		d.size = sizeof( &aStr ); 
+ByteArray::ByteArray(const char *aStr) { 
+	if(aStr) {
+		d.size = std::strlen(aStr);
+		d.data = new char[d.size + 1];
+		std::strcpy(d.data, aStr);
 	}
 }
 

@@ -1,3 +1,5 @@
+#include <string>
+
 typedef unsigned int uint;
 
 class ByteArray {
@@ -7,7 +9,7 @@ class ByteArray {
 	};
 	Data d;
 public:
-	ByteArray(char *aStr);
+	ByteArray(const char *aStr);
 	uint getSize();
 	char* getString();
 };
