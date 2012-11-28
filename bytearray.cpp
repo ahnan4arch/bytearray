@@ -2,13 +2,13 @@
 
 ByteArray::ByteArray(const char *aStr) { 
 	if(aStr) {
-		d.size = std::strlen(aStr);
-		d.data = new char[d.size];
-		std::strcpy(d.data, aStr);
+		d = new Data;
+		d->size = std::strlen(aStr);
+		d->data = new char[d->size];
+		std::strcpy(d->data, aStr);
 	}
 	else {
-		d.size = 0;
-		d.data = 0;
+		d = 0;
 	}
 }
 
@@ -16,24 +16,24 @@ ByteArray::ByteArray(const ByteArray& aA) : d(aA.d) {}
 
 int 
 	ByteArray::size() const {
-		return d.size;
+		return d->size;
 }
 
 const char*
 	ByteArray::data() const {
-		return d.data;
+		return d->data;
 }
 
 ByteArray 
 	ByteArray::toHex() const {
-		unsigned char *rez = new unsigned char[d.size * 2];
-		for (int i = 0; i < d.size; ++i) {
-			int j = (d.data[i] >> 4) & 0xf;
+		unsigned char *rez = new unsigned char[d->size * 2];
+		for (int i = 0; i < d->size; ++i) {
+			int j = (d->data[i] >> 4) & 0xf;
 			if (j <= 9)
 				rez[i*2] = (j + '0');
 			else
 				rez[i*2] = (j + 'a' - 10);
-			j = d.data[i] & 0xf;
+			j = d->data[i] & 0xf;
 			if (j <= 9)
 				rez[i*2+1] = (j + '0');
 			else
@@ -45,9 +45,6 @@ ByteArray
 /* static */
 ByteArray
 	ByteArray::fromHex(const ByteArray& aBa) {
-		//ByteArray ba;
-		//ba.d.data = 
-
 		unsigned char *rez = new unsigned char[(aBa.size() + 1) / 2];
 		for(int j = 0; j < aBa.size(); j++)
 		{
@@ -72,11 +69,11 @@ ByteArray
 /* operator */
 ByteArray& 
 	ByteArray::operator=(const ByteArray& aBa) {
-		if(this != &aBa) {
-			char *_t = d.data;
-			delete[] _t;
-			d.data = new char[aBa.size()];
-			d.size = aBa.size();
+		if(this != &aBa) {			
+			delete[] d->data;
+			d->data = new char[aBa.size()];
+			std::strcpy(d->data, aBa.data());
+			d->size = aBa.size();
 		}
 		return *this;
 }
