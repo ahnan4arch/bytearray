@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+
 #include "bytearray.h"
 
 static void cp1251_to_utf8(char *out, const char *in) {
@@ -35,18 +37,38 @@ static void cp1251_to_utf8(char *out, const char *in) {
     *out = 0;
 }
 
+struct foo {
+	char *_a;
+	int _b;
+};
+
 int main() {
 
-	char in[] = "ffffffffffff000077ab13a016165f54525f0000000955564b312d41524d000000000000000000000008000d016800000000000000040000000800000001016800fe0102010d0000000800000000015800c10102000d";
-//	char res[ sizeof( in ) * 3 + 1 ];
+	std::string in("cde5eff0e0e2e8ebfcedeee520f1eeeee1f9e5ede8e5204b4f4e5f544d5f484f53544b4e4620eef220d3cad2d121");
+	
+	ByteArray uin("d09fd180d0b8d0b2d0b5d18221");
 
+	ByteArray b(in.c_str());
+	
+	std::cout << b.size() << "\n" 
+		<< in.size() << "\n" 
+		<< b.data() << "\n"
+		<< b.at(12) << "\n";
+//		<< uin.toHex().data() << "\n"
+//		<< b.toHex().data();
+//	uin = ByteArray::fromHex(uin);
+//	std::ofstream out;
+//	out.open("t.txt");
+//	out << uin.data() << "\n";
+//	out.close();
 
-//	cp1251_to_utf8((char*) &res, (char*) &in);
+	foo _f;
+	_f._a = new char[10];
+	_f._b = 10;
 
-//	std::cout << res;
-	ByteArray b(in);
+	_f._a[0] = 'f';
 
-	std::cout << b.getSize() << "\n" << sizeof( in ) << "\n" << b.getString();
+	delete[] _f._a;
 
 	std::cin.get();
 
