@@ -1,4 +1,4 @@
-#include <iostream>
+//#include <iostream>
 #include <fstream>
 
 #include "bytearray.h"
@@ -46,9 +46,16 @@ class boo {
 	foo f;
 public:
 	boo() { 
-		f._a = new char[std::strlen("fuck the system!")];
-		f._a = "fuck the system!";
+		f._a = new char[std::strlen("fuck the system!")+1];
+		std::strcpy(f._a, "fuck the system!");
+		//f._a = "fuck the system!";
 		f._b = std::strlen("fuck the system!"); 
+	}
+
+	boo(std::string str) { 
+		f._a = new char[str.length()+1];
+		std::strcpy(f._a, str.c_str());
+		f._b = str.length(); 
 	}
 
 	~boo() { 
@@ -58,30 +65,40 @@ public:
 
 int main() {
 //
-//	std::string in("cde5eff0e0e2e8ebfcedeee520f1eeeee1f9e5ede8e5204b4f4e5f544d5f484f53544b4e4620eef220d3cad2d121");
+	std::string in("cde5eff0e0e2e8ebfcedeee520f1eeeee1f9e5ede8e5204b4f4e5f544d5f484f53544b4e4620eef220d3cad2d121");
 //	
-//	ByteArray uin("d09fd180d0b8d0b2d0b5d18221");
+	ByteArray uin("d09fd180d0b8d0b2d0b5d18221");
 //
-//	ByteArray b(in.c_str());
+
+	//œ¿ƒ¿≈“ Ì‡ NEW !!!
+	ByteArray *b = new ByteArray(in.c_str());
+//	delete b;
 //	
-//	std::cout << b.size() << "\n" 
-//		<< in.size() << "\n" 
-//		<< b.data() << "\n"
-//		<< b.at(12) << "\n"
-//		<< uin.data() << "\n";
-////		<< b.toHex().data();
-////	uin = ByteArray::fromHex(uin);
+	b = &ByteArray::fromHex(*b);
+	//std::cout << b.size() << "\n" 
+	//	<< in.size() << "\n" 
+	//	<< b.data() << "\n"
+	//	<< b.at(12) << "\n"
+	//	<< uin.data() << "\n";
+
+	uin = ByteArray::fromHex(uin);
+	std::cout << uin.data() << "\n";
 //
-//	ByteArray _foof("uzhos");
-//	_foof = uin;
+	ByteArray _foof("uzhos");
+	_foof = uin;
+
+	uin = "Fooooo!";
 //
 //	std::ofstream out;
 //	out.open("t.txt");
 //	out << uin.data() << "\n";
 //	out.close();
 
-	boo *b = new boo;
-	delete b;
+	//boo *b = new boo("Fuck!!!");
+	//delete b;
+
+	//boo *a = new boo;
+	//delete a;
 
 	std::cin.get();
 

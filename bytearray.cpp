@@ -4,15 +4,37 @@ ByteArray::ByteArray(const char *aStr) {
 	if(aStr) {
 		d = new Data;
 		d->size = std::strlen(aStr);
-		d->data = new char[d->size];
+		d->data = new char[d->size + 1];
 		std::strcpy(d->data, aStr);
 	}
 	else {
-		d = 0;
+		d = new Data;
+		d->size = 0;
+		d->data = 0;
 	}
 }
 
-ByteArray::ByteArray(const ByteArray& aA) : d(aA.d) {}
+ByteArray::ByteArray(const int aSize) { 
+	if(aSize > 0) {
+		d = new Data;
+		d->size = aSize;
+		d->data = new char[aSize + 1];
+	}
+	else {
+		d = new Data;
+		d->size = 0;
+		d->data = 0;
+	}
+}
+
+ByteArray::ByteArray(const ByteArray& aA) {
+	d = new Data;
+	d->size = aA.size();
+	d->data = new char[aA.size() + 1];
+	std::strcpy(d->data, aA.data());
+
+	std::cout << d->size;
+}
 
 int 
 	ByteArray::size() const {
@@ -26,26 +48,29 @@ const char*
 
 ByteArray 
 	ByteArray::toHex() const {
-		unsigned char *rez = new unsigned char[d->size * 2];
+		ByteArray res(d->size * 2);
+		unsigned char *hexData = (unsigned char *)res.d->data;
 		for (int i = 0; i < d->size; ++i) {
 			int j = (d->data[i] >> 4) & 0xf;
 			if (j <= 9)
-				rez[i*2] = (j + '0');
+				hexData[i*2] = (j + '0');
 			else
-				rez[i*2] = (j + 'a' - 10);
+				hexData[i*2] = (j + 'a' - 10);
 			j = d->data[i] & 0xf;
 			if (j <= 9)
-				rez[i*2+1] = (j + '0');
+				hexData[i*2+1] = (j + '0');
 			else
-				rez[i*2+1] = (j + 'a' - 10);
+				hexData[i*2+1] = (j + 'a' - 10);
 		}
-		return ByteArray((char*)rez);
+		return res;
 }
 
 /* static */
 ByteArray
 	ByteArray::fromHex(const ByteArray& aBa) {
-		unsigned char *rez = new unsigned char[(aBa.size() + 1) / 2];
+		ByteArray res((aBa.size() + 1) / 2);
+		unsigned char *encodedData = (unsigned char *)res.d->data;
+
 		for(int j = 0; j < aBa.size(); j++)
 		{
 			int ret = 0;
@@ -61,9 +86,9 @@ ByteArray
 					n = 10 + c - 'A';
 				ret = n + ret * 16;
 			}
-			rez[j] = (unsigned char)ret;
+			encodedData[j] = (unsigned char)ret;
 		}
-		return ByteArray((char*)rez);
+		return res;
 }
 
 /* operator */
@@ -71,7 +96,7 @@ ByteArray&
 	ByteArray::operator=(const ByteArray& aBa) {
 		if(this != &aBa) {			
 			delete[] d->data;
-			d->data = new char[aBa.size()];
+			d->data = new char[aBa.size() + 1];
 			std::strcpy(d->data, aBa.data());
 			d->size = aBa.size();
 		}

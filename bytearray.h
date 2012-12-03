@@ -1,5 +1,7 @@
 #include <string>
 
+#include <iostream>
+
 typedef unsigned int uint;
 
 class ByteArray {
@@ -12,6 +14,7 @@ class ByteArray {
 	Data *d;
 public:
 	ByteArray(const ByteArray&);
+	ByteArray(const int);
 	ByteArray(const char *aStr = 0);
 	~ByteArray() { 
 		delete[] d->data; 
