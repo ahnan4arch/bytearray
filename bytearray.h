@@ -1,30 +1,34 @@
 #include <string>
 
-#include <iostream>
+#define BA_DEBUG
+
+#ifdef BA_DEBUG
+	#include <iostream>
+#endif
 
 typedef unsigned int uint;
 
 class ByteArray {
-
-	struct Data {
-		char *data;
-		int size;
-	};
-
-	Data *d;
+	char *ba_data;
+	int ba_size;
 public:
 	ByteArray(const ByteArray&);
 	ByteArray(const int);
-	ByteArray(const char *aStr = 0);
+	ByteArray(const char *aStr = 0, const int aSize = 0);
 	~ByteArray() { 
-		delete[] d->data; 
-		delete d; 
-	};
+		delete[] ba_data;
+	}
 
-	int size() const;
-	const char* data() const;
+	int size() const { return ba_size; }
+
+	const char* data() const { return ba_data; }
+
 	ByteArray toHex() const;
-	char at(int aI) const { if(aI >= 0 && aI < d->size) return d->data[aI]; };
+
+	char at(int aI) const { 
+		if(aI >= 0 && aI < ba_size)
+			return ba_data[aI]; 
+	}
 
 	/* static */
 	static ByteArray fromHex(const ByteArray&);	

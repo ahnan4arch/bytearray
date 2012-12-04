@@ -64,41 +64,33 @@ public:
 };
 
 int main() {
-//
 	std::string in("cde5eff0e0e2e8ebfcedeee520f1eeeee1f9e5ede8e5204b4f4e5f544d5f484f53544b4e4620eef220d3cad2d121");
-//	
-	ByteArray uin("d09fd180d0b8d0b2d0b5d18221");
-//
 
-	//ПАДАЕТ на NEW !!!
-	ByteArray *b = new ByteArray(in.c_str());
-//	delete b;
-//	
-	b = &ByteArray::fromHex(*b);
-	//std::cout << b.size() << "\n" 
-	//	<< in.size() << "\n" 
-	//	<< b.data() << "\n"
-	//	<< b.at(12) << "\n"
-	//	<< uin.data() << "\n";
+	ByteArray uin("d09fd180d0b8d0b2d0b5d18221");
+
+	ByteArray hoo(in.c_str());
+
+	ByteArray joo("JOO");
+	joo = hoo;
+
+	hoo.~ByteArray();
+	joo.~ByteArray();
+
+	//	ByteArray b(in.c_str());
+	//ПАДАЕТ на NEW в операторе копирования
+	//	b = ByteArray::fromHex(b);
 
 	uin = ByteArray::fromHex(uin);
 	std::cout << uin.data() << "\n";
-//
-	ByteArray _foof("uzhos");
-	_foof = uin;
 
-	uin = "Fooooo!";
-//
-//	std::ofstream out;
-//	out.open("t.txt");
-//	out << uin.data() << "\n";
-//	out.close();
+	/*uin = uin.toHex();
+	std::cout << uin.data() << "\n";
 
-	//boo *b = new boo("Fuck!!!");
-	//delete b;
+	uin = ByteArray::fromHex(uin);
+	std::cout << uin.data() << "\n";
 
-	//boo *a = new boo;
-	//delete a;
+	uin = uin.toHex();
+	std::cout << uin.data() << "\n";*/
 
 	std::cin.get();
 
