@@ -77,20 +77,21 @@ int main() {
 	joo.~ByteArray();
 
 	//	ByteArray b(in.c_str());
-	//ПАДАЕТ на NEW в операторе копирования
 	//	b = ByteArray::fromHex(b);
 
-	uin = ByteArray::fromHex(uin);
-	std::cout << uin.data() << "\n";
-
-	/*uin = uin.toHex();
 	std::cout << uin.data() << "\n";
 
 	uin = ByteArray::fromHex(uin);
 	std::cout << uin.data() << "\n";
 
 	uin = uin.toHex();
-	std::cout << uin.data() << "\n";*/
+	std::cout << uin.data() << "\n";
+
+	uin = ByteArray::fromHex(uin);
+	std::cout << uin.data() << "\n";
+
+	uin = uin.toHex();
+	std::cout << uin.data() << "\n";
 
 	std::cin.get();
 

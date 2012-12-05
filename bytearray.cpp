@@ -55,10 +55,10 @@ ByteArray
 /* static */
 ByteArray
 	ByteArray::fromHex(const ByteArray& aBa) {
-		ByteArray res(aBa.size() / 2);
+		ByteArray res((aBa.size() + 1) / 2);
 		unsigned char *encodedData = (unsigned char*)res.ba_data;
 
-		for(int j = 0; j < aBa.size() / 2; j++)
+		for(int j = 0; j <= (aBa.size() + 1) / 2; j++)
 		{
 			int ret = 0;
 			for(int i = j*2; i < j*2+2; i++ )
