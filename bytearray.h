@@ -14,15 +14,21 @@ class ByteArray {
 public:
 	ByteArray(const ByteArray&);
 	ByteArray(const int);
-	ByteArray(const char *aStr = 0, const int aSize = 0);
+	ByteArray(const char *aStr);
 	~ByteArray() { 
 		delete[] ba_data;
 	}
 
 	int size() const { return ba_size; }
-
 	const char* data() const { return ba_data; }
 
+	bool isNull() {
+		if(ba_data == NULL) {
+			return true;
+		}
+		return false;
+	}
+	
 	ByteArray toHex() const;
 
 	char at(int aI) const { 

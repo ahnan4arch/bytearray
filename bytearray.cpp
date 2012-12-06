@@ -1,14 +1,15 @@
 #include "bytearray.h"
 
-ByteArray::ByteArray(const char *aStr, const int aSize) { 
+ByteArray::ByteArray(const char *aStr) { 
 	if(aStr) {
 		ba_size = std::strlen(aStr);
-		ba_data = new char[ba_size + 1];
-		std::strcpy(ba_data, aStr);
+		ba_data = new char[ba_size+1];
+		memcpy(ba_data, aStr, ba_size);
+		ba_data[ba_size] = '\0';
 	}
 	else {
 		ba_size = 0;
-		ba_data = 0;
+		ba_data = NULL;
 	}
 }
 
@@ -16,18 +17,20 @@ ByteArray::ByteArray(const int aSize) {
 	if(aSize > 0) {
 		ba_size = aSize;
 		ba_data = new char[ba_size + 1];
+		ba_data[ba_size] = '\0';
 	}
 	else {
 		ba_size = 0;
-		ba_data = 0;
+		ba_data = NULL;
 	}
 }
 
 ByteArray::ByteArray(const ByteArray& aA) : ba_size(aA.size()) {
 	ba_data = new char[ba_size + 1];
-	std::strcpy(ba_data, aA.data());
+	memcpy(ba_data, aA.ba_data, ba_size);
+	ba_data[ba_size] = '\0';
 #ifdef BA_DEBUG
-	std::cout << "copy cnstr. size: " << ba_size << "\n";
+	std::cout << "------>(cpycnstr) new size: " << ba_size << "\n";
 #endif
 }
 
@@ -49,6 +52,9 @@ ByteArray
 			else
 				hexData[i*2+1] = (j + 'a' - 10);
 		}
+#ifdef BA_DEBUG
+		std::cout << "------>(toHex) encoded len: " << std::strlen((char*)hexData) << "\n";
+#endif
 		return res;
 }
 
@@ -76,7 +82,7 @@ ByteArray
 			encodedData[j] = (unsigned char)ret;
 		}
 #ifdef BA_DEBUG
-		std::cout << "encoded len: " << std::strlen((char*)encodedData) << "\n";
+		std::cout << "------>(fromHex) encoded len: " << std::strlen((char*)encodedData) << "\n";
 #endif
 		return res;
 }
@@ -89,7 +95,8 @@ ByteArray&
 
 			ba_size = aBa.size();
 			ba_data = new char[ba_size + 1];
-			std::strcpy(ba_data, aBa.data());			
+			memcpy(ba_data, aBa.ba_data, ba_size);
+			ba_data[ba_size] = '\0';			
 		}
 		return *this;
 }
